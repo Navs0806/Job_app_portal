@@ -1,0 +1,34 @@
+body{
+  background-color: #dadada;
+}
+
+#form{
+  background-color: white;
+  padding: 35px;
+}
+h1{
+  text-align: center;
+  font-size: 50px;
+  margin-bottom: 40px;
+  background-color: #c3bbbb;
+  padding: 15px;
+}
+p{
+  text-align: center;
+   color: #114e83;
+   margin: 36px;
+   font-size: 25px;
+}
+img{
+  width: 50%;
+}
+.ran{
+  font-size: 20px;
+}
+.lap img{
+  width: 90%;
+}
+span{
+  color: red;
+  
+}
