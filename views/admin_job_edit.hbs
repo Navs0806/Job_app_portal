@@ -1,0 +1,47 @@
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Hello admin!</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/logout">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="/redirects/admin">Overview <span class="sr-only">(current)</span></a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            {{#each jobs}}
+               <li><a href="/redirects/admin/{{this.name}}">{{this.name}}</a></li>
+            {{/each}}
+           
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="/redirects/admin/addJob">Add a new Job</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">Dashboard</h1>
+          <h2 class="sub-header">Edit</h2>
+          <br>
+          <br><br>
+           <div>
+           <form method="post" action="/redirects/admin/{{job.name}}/edit" style="background-color: #ffe8e8; padding: 5%;">
+            <div class="form-group"><label>Job Name:</label><input type="test" name="name" value="{{job.name}}"></div>
+            <div class="form-group"><label>Job description:</label><br><textarea name="description" style="width: 75%; height: 180px;">{{job.description}}</textarea></div>
+            <div class="form-group"><label>Job requirements:</label><br><textarea name="requirements" style="width: 75%; height: 200px;">{{job.requirements}}</textarea></div>
+            <div class="form-group"><label>Vacancies:</label><input type="number" name="vacancies" required="true" value="{{job.vacancies}}"></div>
+            <input type="submit" value="Edit" class="btn btn-primary">
+          </form>
+           </div>
+        </div>
+      </div>
+    </div>
+

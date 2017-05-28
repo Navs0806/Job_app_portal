@@ -1,0 +1,87 @@
+   <script>
+
+    var mainApp = angular.module('mainModule', []);
+    mainApp.controller('controller', function($scope){
+       $scope.value = false;
+       {{#if addJob}}
+       $scope.value = {{addJob}};
+       {{/if}}
+
+
+    });
+  </script>
+
+   <div ng-app="mainModule" ng-controller="controller">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Hello admin!</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/logout">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="/redirects/admin">Overview <span class="sr-only">(current)</span></a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            {{#each jobs}}
+               <li><a href="/redirects/admin/{{this.name}}">{{this.name}}</a></li>
+            {{/each}}
+           
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="/redirects/admin/addJob">Add a new Job</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">Dashboard</h1>
+          <h2 class="sub-header">{{#if addJob}}Add a new job{{else}}Overview{{/if}}</h2>
+          <br>
+          <p class="alert alert-info" ng-hide="value" >Click on the job names on the sidebar on the left to view the applications received.</p>
+          <br><br>
+           <div class="table-responsive" ng-hide="value">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Job name</th>
+                  <th>Description</th>
+                  <th>Requirements</th>
+                  <th>Vacancies</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {{# each jobs}}
+                  <tr>
+                    <td>{{name}}</td>
+                    <td>{{description}}</td>
+                    <td>{{requirements}}</td>
+                    <td>{{vacancies}}</td>
+                    <td><a href="/redirects/admin/{{name}}/edit" class="btn btn-primary">Edit</a>
+                        <a href="/redirects/admin/{{name}}/remove" class="btn btn-danger">Remove</a></td>
+                  </tr>
+                {{/each}}
+              </tbody>
+            </table>
+          </div>
+           <div ng-show = "value">
+           <form method="post" action="/redirects/admin" style="background-color: #ffe8e8; padding: 5%;">
+            <div class="form-group"><label>Job Name:</label><input type="test" name="name"></div>
+            <div class="form-group"><label>Job description:</label><br><textarea name="description" style="width: 75%; height: 180px;"></textarea></div>
+            <div class="form-group"><label>Job requirements:</label><br><textarea name="requirements" style="width: 75%; height: 200px;"></textarea></div>
+            <div class="form-group"><label>Vacancies:</label><input type="number" name="vacancies" required="true" ></div>
+            <input type="submit" value="Add" class="btn btn-primary">
+          </form>
+           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+

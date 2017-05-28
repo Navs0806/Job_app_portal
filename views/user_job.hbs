@@ -1,0 +1,62 @@
+  <script>
+
+    var mainApp = angular.module('mainModule', []);
+    mainApp.controller('controller', function($scope){
+       if ({{job.vacancies}} == 0){
+          document.getElementById('btn1').disabled = true;
+          document.getElementById('msg').style.display = 'block';
+       }
+    });
+  </script>
+
+<div ng-app="mainModule" ng-controller="controller">
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Hello {{user.username}}!</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/logout">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="/redirects/{{user._id}}">Overview <span class="sr-only">(current)</span></a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            {{#each jobs}}
+               <li><a href="/redirects/{{../user._id}}/{{this.name}}">{{this.name}}</a></li>
+            {{/each}}
+           
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">Dashboard</h1>
+          <h2 class="sub-header">{{job.name}}</h2>
+          <br><br><br>
+          <div style="font-size: 22px; padding: 20px; padding-left: 5%; background-color: #fdf4f4;">
+          <p><b>Name:</b> {{job.name}}</p> 
+          <p><b>Description:</b> {{job.description}}</p>
+          <p><b>Requirements:</b> {{job.requirements}}</p>
+          <p><b>Vacancies:</b> {{job.vacancies}}</p>
+          <br>
+          <form action="/redirects/{{user._id}}/{{job.name}}" method="post">
+            <input type="text" name="username" value="{{user.username}}" style="display: none;">
+            <input type="text" name="jobname" value="{{job.name}}" style="display: none;">
+            <input type="submit" class = "btn btn-primary" value="Apply" id="btn1" {{#if disabled}} disabled="{{disabled}}" {{/if}}>
+          </form>
+          </div>
+          <br><br>
+          {{#if status}}
+          <p class="alert alert-info" style="text-align: center;">{{status}}</p>
+          {{/if}}
+            <p class="alert alert-warning" style="text-align: center; display: none;" id="msg">Applications closed.</p>
+        </div>
+      </div>
+    </div>
+  </div>

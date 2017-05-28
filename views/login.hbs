@@ -1,0 +1,45 @@
+ <div class="site-wrapper">
+
+      <div class="site-wrapper-inner">
+
+        <div class="cover-container">
+
+          <div class="masthead clearfix">
+            <div class="inner">
+              <h4 class="masthead-brand">Because we understand your needs..</h4>
+              <nav>
+                <ul class="nav masthead-nav">
+                  <li><a href="/">Home</a></li>
+                  <li class="active"><a href="#">Login</a></li>
+              
+                </ul>
+              </nav>
+            </div>
+          </div>
+
+          <div class="inner cover">
+            <form action="/login" method="post">
+            <div class="form-group">
+              <label style="font-size: 23px; margin: 13px">Username:</label><input type="text" name="username" style="color: black">
+            </div>
+            <div class="form-group">
+              <label style="font-size: 23px; margin: 13px">Password:</label><input type="password" name="password" style="color: black">
+            </div> 
+              <input class="btn btn-lg btn-default" type="submit" value="Login">
+            {{#if string}}
+               <br> <br><br>
+               <p class="alert alert-danger">{{string}}</p>
+            {{/if}}
+            {{#if string2}}
+               <br> <br><br>
+               <p class="alert alert-success">{{string2}}</p>
+            {{/if}}
+
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>

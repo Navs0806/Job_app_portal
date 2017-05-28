@@ -1,0 +1,82 @@
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Hello admin!</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/logout">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="/redirects/admin">Overview <span class="sr-only">(current)</span></a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            {{#each jobs}}
+               <li><a href="/redirects/admin/{{this.name}}">{{this.name}}</a></li>
+            {{/each}}
+           
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="/redirects/admin/addJob">Add a new Job</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">Dashboard</h1>
+          <h2 class="sub-header">{{job.name}}</h2>
+          <br><br>
+          <div style="font-size: 22px; padding: 20px; padding-left: 5%; background-color: #fdf4f4;">
+          <p><b>Name:</b> {{job.name}}</p> 
+          <p><b>Description:</b> {{job.description}}</p>
+          <p><b>Requirements:</b> {{job.requirements}}</p>
+          <p><b>Vacancies:</b> {{job.vacancies}}</p>
+          </div>
+          <br><br>
+          <h2 class="sub-header">Applications received for this job:</h2>
+          <br><br>
+          {{#if applications}}
+          <div>
+             <ul style="list-style: none;">
+               {{#each applications}}
+                  <li style="padding: 5px; background-color: #fdf4f4; margin: 5px;"> 
+                  <div class="row">
+                    <div class="col-xs-12 col-md-5" style="font-size: 22px; padding-left: 30px;">
+                      {{this.username}}
+                    </div>
+                    <div class="col-xs-6 col-md-4">
+                    <form action="/redirects/admin/{{this.jobname}}" method="post">
+                      <input type="text" name="username" value="{{this.username}}" style="display: none;" >
+                      <input type="text" name="status" value="Congratulations!! Your application has been approved!" style="display: none;" >
+                      <input type="submit" value="Approve" class="btn btn-success" style="position: relative; float: right; {{#if this.approval}}
+                           display: none;
+                        {{/if}}">
+                      {{#if this.approval}}
+                      <input type="submit" value="Approved" class="btn btn-success" disabled="true" style="position: relative; float: right;">
+                      {{/if}}
+                    </form>
+                    </div>
+                    <div class="col-xs-6 col-md-3">
+                    <form action="/redirects/admin/{{this.jobname}}" method="post">
+                      <input type="text" name="username" value="{{this.username}}" style="display: none;">
+                      <input type="text" name="status" value="Sorry, your application has been rejected." style="display: none;">
+                      <input type="submit" class="btn btn-danger" value="Reject" style="{{#if this.approval}}display: none;{{/if}}">
+                    </form>
+                    </div>
+                  </div>
+                  </li>
+               {{/each}}
+             </ul>
+          </div>
+          {{else}}
+          <p class="alert alert-danger">No applications have been received yet.</p>
+          {{/if}}
+      </div>
+    </div>
+  </div>
+

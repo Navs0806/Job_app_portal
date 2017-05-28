@@ -1,0 +1,94 @@
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Hello {{user.username}}!</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/logout">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="/redirects/{{user._id}}">Overview <span class="sr-only">(current)</span></a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            {{#each jobs}}
+               <li><a href="/redirects/{{../user._id}}/{{this.name}}">{{this.name}}</a></li>
+            {{/each}}
+           
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">Dashboard</h1>
+          <h2 class="sub-header">Available jobs</h2>
+          <br>
+           <p class="alert alert-info">Click on the job names on the sidebar on the left to apply.</p>
+          <br>
+          <div class="row">
+            <div class="col-xs-6 col-sm-2">
+              <ul style="list-style: none;">
+                <li style="background-color: #b7ffb2; text-align: center;">Approved</li>
+                <li style="background-color: #b2baff; text-align: center;">Applied</li>
+              </ul>
+            </div>
+             <div class="col-xs-6 col-sm-2">
+              <ul style="list-style: none;">
+                <li style="background-color: #ffb2b2; text-align: center;">Rejected</li>
+                <li style="background-color: #ffff95; text-align: center;">Closed</li>
+              </ul>
+            </div>
+          </div>
+          <br>
+           <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Job name</th>
+                  <th>Description</th>
+                  <th>Requirements</th>
+                  <th>Vacancies</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{# each jobs}}
+                  <tr id="{{status}}">
+                    <td>{{name}}</td>
+                    <td>{{description}}</td>
+                    <td>{{requirements}}</td>
+                    <td>{{vacancies}}</td>
+                  </tr>
+                {{/each}}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+     var approved = document.querySelectorAll('#approved');
+     for(var i = 0; i < approved.length; i++){
+       approved[i].style.backgroundColor = '#b7ffb2';
+     }
+     var applied = document.querySelectorAll('#applied');
+     console.log(applied);
+     for(var i = 0; i < applied.length; i++){
+       applied[i].style.backgroundColor = '#b2baff';
+     }
+     var rejected = document.querySelectorAll('#rejected');
+     for(var i = 0; i < rejected.length; i++){
+       rejected[i].style.backgroundColor = '#ffb2b2';
+     }
+     var closed0 = document.querySelectorAll('#closed0');
+     for(var i = 0; i < closed0.length; i++){
+       closed0[i].style.backgroundColor = '#ffff95';
+     }
+    </script>
+
+
+
