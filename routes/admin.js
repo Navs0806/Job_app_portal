@@ -16,7 +16,7 @@ router.get('/addJob', function(req, res){
     }
 });
 
-router.get('/:jobname', function(req, res){
+router.get('/:jobname', function(req, res){ //when the admin clicks on the name of a job
     sess = req.session;
 	if(sess.name != 'admin'){
 		res.redirect('/redirects');
@@ -52,10 +52,10 @@ router.get('/:jobname', function(req, res){
                        flag2 = true;
 					}
 				}
-				if(flag2){
+				if(flag2){//passing the information of all the applicants for this job
                     res.render('admin_job', {style: "/css/admin.css", jobs: jobs, job: job, applications: applicantsArray});
 				}
-				else{
+				else{ //if no one has applied for this job
 					res.render('admin_job', {style: "/css/admin.css", jobs: jobs, job: job});
 				}               
 			});
@@ -67,7 +67,7 @@ router.get('/:jobname', function(req, res){
     } 
 });
 
-router.post('/:jobname', function(req, res){
+router.post('/:jobname', function(req, res){ //when the admin approves or rejects an application
    var applicantsData = require('../models/applicantsData');
    applicantsData.find().then(function(doc){
    	for (var i = 0; i < doc.length; i++) {
@@ -81,7 +81,7 @@ router.post('/:jobname', function(req, res){
    	    jobData.find().then(function(doc){
    		    for(var i = 0; i < doc.length; i++){
    			   if(doc[i].name == req.params.jobname){
-                   doc[i].vacancies--;
+                   doc[i].vacancies--;  //decreasing the number of vacancies if the application is approved
                    doc[i].save();
    			   }
    		    }
@@ -98,27 +98,27 @@ router.get('/:jobname/edit', function(req, res){
 	}
 	else{
 		var jobData = require('../models/jobData');
-		jobData.find().then(function(doc){
+		jobData.find().then(function(doc){         //ckecking if /:jobname is a valid path
 			var flag = false;
 			for(var i = 0; i < doc.length; i++){
 				if(doc[i].name == req.params.jobname){
-                   flag = true;
-                   break;
+                                      flag = true;
+                                       break;
 				}
 			}
 			if(!flag){
-				res.redirect('/redirects');
+				res.redirect('/redirects'); //redirecting f path not valid
 			}
-			else{
+			else{     //enabling edit in case of valid path
 				res.render('admin_job_edit', {style: "/css/admin.css", jobs: doc, job: doc[i]});
 			}
 		});
 	}
 });
 
-router.post('/:jobname/edit', function(req, res){
+router.post('/:jobname/edit', function(req, res){ //when the admin edits details for a job
 	var jobData = require('../models/jobData');
-	jobData.update(
+	jobData.update(      //updating job data 
     { "name": req.params.jobname },
     { "$set": { "name": req.body.name, "description": req.body.description, "requirements": req.body.requirements, "vacancies": req.body.vacancies } },
     function (err, raw) {
@@ -127,7 +127,7 @@ router.post('/:jobname/edit', function(req, res){
         }
          else {
             var applicantsData = require('../models/applicantsData');
-            applicantsData.update(
+            applicantsData.update(      //updating job name in applicants data
                 {"jobname": req.params.jobname},
                 {"$set":{"jobname": req.body.name}},
                 function(err, raw){
@@ -150,7 +150,7 @@ router.get('/:jobname/remove', function(req, res){
 		res.redirect('/redirects');
 	}
 	else{
-		var jobData = require('../models/jobData');
+		var jobData = require('../models/jobData');  //ckecking if the path is valid by ckecking that 'jobname' is the name of a job in the database
 		jobData.find().then(function(doc){
 			var flag = false;
 			for(var i = 0; i < doc.length; i++){
@@ -159,10 +159,10 @@ router.get('/:jobname/remove', function(req, res){
                    break;
 				}
 			}
-			if(!flag){
-				res.redirect('/redirects');
+			if(!flag){  //if path is not valid
+				res.redirect('/redirects');   
 			}
-			else{
+			else{  //removing the job from the database
 				jobData.remove({name: req.params.jobname}, function(err){
 		            res.redirect('/redirects/admin');
 				});
