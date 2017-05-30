@@ -19,7 +19,7 @@ router.post('/register', function(req, res){
                  gender: req.body.gender,
                  password: req.body.password
                 };
-    
+    //form validation
     req.checkBody('firstname', 'First name is required.').notEmpty();
     req.checkBody('lastname', 'Last name is required.').notEmpty();
     req.checkBody('username', 'Username is required.').notEmpty();
@@ -36,13 +36,13 @@ router.post('/register', function(req, res){
     else{
         var userData = require('../models/userData');
         var flag = true;
-        userData.find().then(function(doc){
+        userData.find().then(function(doc){    //checking if the username entered is already taken
           for(var i=0; i<doc.length; i++){
             if(info.username == doc[i].username){
             flag = false;
             }
           }
-          if(flag){
+          if(flag){             //registering user if the username is not already taken
             var user = new userData(info);
             user.save();
             res.render('login', {style: "/css/home.css", string2: "Registration successful! You can now login to your account."});
@@ -58,7 +58,7 @@ router.post('/register', function(req, res){
 router.get('/login', function(req, res){
     sess = req.session;
     if(sess.name){
-      res.redirect('/redirects');
+      res.redirect('/redirects');  //redirecting to the respective account if session is active
     }
     else{
       res.render('login', {style: "/css/home.css"});
@@ -75,18 +75,18 @@ router.post('/login', function(req, res){
     userData.find().then(function(doc){
        var i;
        var flag = false;
-       for(i=0; i<doc.length; i++){
-        if(doc[i].username == username && doc[i].password == password){
+       for(i=0; i<doc.length; i++){        //checking if a user with the entered credentials exists in the database
+        if(doc[i].username == username && doc[i].password == password){  
           sess.name = doc[i]._id;
           flag = true;
         	break;
         }
        }
        if(username == 'admin' && password == 'admin'){
-        sess.name = 'admin';
+        sess.name = 'admin';     //checking if the user is the admin
         flag = true;
        }
-       if(!flag){
+       if(!flag){      //if credentials entered do not belong to any user
         res.render('login', {style: "/css/home.css", string: "Username or password is incorrect."});
        }
        else{
